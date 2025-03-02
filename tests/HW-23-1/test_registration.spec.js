@@ -1,27 +1,24 @@
 import { test, expect } from '@playwright/test';
+import { RegistrationPage } from '../POM-HW-23-1/RegistrationPage';
 
 const BASE_URL = 'https://guest:welcome2qauto@qauto.forstudy.space';
-const EMAIL_PREFIX = 'aqa'; 
+const EMAIL_PREFIX = 'aqa';
 const TEST_DOMAIN = 'test.com';
 
 test.describe('User Registration', () => {
-    
+    let registrationPage;
+
     test.beforeEach(async ({ page }) => {
-        await page.goto(BASE_URL);
-        await page.locator('button:has-text("Sign up")').click(); 
+        registrationPage = new RegistrationPage(page);
+        await registrationPage.navigate(BASE_URL);
+        await registrationPage.openSignUpModal();
     });
 
-    
     test('Successful user registration', async ({ page }) => {
-        await page.fill('input[name="name"]', 'John');
-        await page.fill('input[name="lastName"]', 'Doe');
-        await page.fill('input[name="email"]', `${EMAIL_PREFIX}-${Date.now()}@${TEST_DOMAIN}`);
-        await page.fill('input[name="password"]', 'Test1234');
-        await page.fill('input[name="repeatPassword"]', 'Test1234');
-        await page.click('.modal-footer > .btn-primary');
+        const email = `${EMAIL_PREFIX}-${Date.now()}@${TEST_DOMAIN}`;
+        await registrationPage.fillRegistrationForm('John', 'Doe', email, 'Test1234', 'Test1234');
+        await registrationPage.submitRegistration();
 
-        await expect(page).toHaveURL(/\/panel\/garage/); 
+        await expect(page).toHaveURL(/\/panel\/garage/);
     });
-
-
 });
