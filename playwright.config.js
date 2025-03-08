@@ -1,5 +1,8 @@
 // @ts-check
 import { defineConfig, devices } from '@playwright/test';
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 /**
  * Read environment variables from file.
@@ -32,6 +35,7 @@ export default defineConfig({
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'on-first-retry',
     browserName: 'chromium',
+    // baseURl: 'https://qa.rozetka.com.ua/ua/'
   },
   
 
@@ -41,6 +45,18 @@ export default defineConfig({
       name: 'chromium',
       use: { ...devices['Desktop Chrome'] },
     },
+    {
+      name: 'prod',
+      use: {
+          baseURL: process.env.PROD_URL,
+      },
+  },
+  {
+      name: 'qa',
+      use: {
+          baseURL: process.env.QA_URL,
+      },
+  },
 
     {
       name: 'firefox',
