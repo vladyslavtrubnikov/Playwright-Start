@@ -39,7 +39,7 @@ export default defineConfig({
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'on-first-retry',
-    browserName: 'chromium',
+    // browserName: 'chromium',
     baseURL: 'https://guest:welcome2qauto@qauto.forstudy.space'
   },
   
