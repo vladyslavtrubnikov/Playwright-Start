@@ -1,0 +1,21 @@
+name: Run Playwright Tests in Docker
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  e2e-tests:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: ⬇️ Checkout code
+        uses: actions/checkout@v3
+
+      - name: 🐳 Build Docker image
+        run: docker build -t playwright-tests .
+
+      - name: 🚀 Run tests inside Docker
+        run: docker run --rm playwright-tests
